@@ -1,0 +1,44 @@
+#!/bin/bash
+
+application=$1
+
+echo
+echo '=========================='
+echo 'Is the Application signed?'
+echo '=========================='
+echo
+
+OUTPUT=$(codesign -d -vvvvv $application 2>&1 >/dev/null)
+
+if echo "$OUTPUT" | grep -q "not signed"; then
+	echo "No"
+	echo
+	exit 0
+else
+	echo "Yes"
+fi
+
+echo
+echo '============================'
+echo 'Is Hardened Runtime enabled?'
+echo '============================'
+echo
+if echo "$OUTPUT" | grep -q "runtime"; then
+	echo "Yes"
+else
+	echo "No"
+	echo
+	exit 0
+fi
+
+echo
+echo '============================================='
+echo 'Which Entitlements does the Application have?'
+echo '============================================='
+echo
+
+PLIST=$(codesign -d --entitlement :- $application 2>/dev/null)
+
+JSON_PLIST=$(echo $PLIST | plutil -convert json -o - -r -)
+
+echo $JSON_PLIST | jq -c 'to_entries[] | select (.value != false) | .key'
