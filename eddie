@@ -2,6 +2,12 @@
 
 application=$1
 
+if ! command -v jq &> /dev/null
+then
+	echo " ! Please install jq first"
+	exit 1
+fi
+
 echo
 echo '=========================='
 echo 'Is the Application signed?'
