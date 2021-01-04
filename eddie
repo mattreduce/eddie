@@ -25,6 +25,15 @@ else
 fi
 
 echo
+echo '=========================='
+echo 'Signing authority:'
+echo '=========================='
+echo
+
+AUTHORITY=$(echo "$OUTPUT" | grep "Authority")
+echo "$AUTHORITY"
+
+echo
 echo '============================'
 echo 'Is Hardened Runtime enabled?'
 echo '============================'
