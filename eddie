@@ -21,7 +21,8 @@ if echo "$OUTPUT" | grep -q "not signed"; then
 	echo
 	exit 0
 else
-	echo "Yes"
+	BUNDLEID=$(echo "$OUTPUT" | grep "^Identifier")
+	echo "Yes (Bundle ID: $BUNDLEID)"
 fi
 
 echo
@@ -32,6 +33,8 @@ echo
 
 AUTHORITY=$(echo "$OUTPUT" | grep "Authority")
 echo "$AUTHORITY"
+
+
 
 echo
 echo '============================'
