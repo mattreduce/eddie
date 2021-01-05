@@ -7,13 +7,21 @@ Assumes you have `jq` installed.
 ## Usage
 
 ```bash
-$ ./eddie /Applications/Slack.app               
+$ eddie /Applications/Slack.app      
 
 ==========================
 Is the Application signed?
 ==========================
 
-Yes
+Yes (Bundle ID: com.tinyspeck.slackmacgap)
+
+==========================
+Signing authority:
+==========================
+
+Authority=Developer ID Application: Slack Technologies, Inc. (BQR82RBBHL)
+Authority=Developer ID Certification Authority
+Authority=Apple Root CA
 
 ============================
 Is Hardened Runtime enabled?
