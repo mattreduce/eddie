@@ -1,6 +1,8 @@
 #!/bin/bash
 
-application=$1
+IFS=$'\n\t'
+
+APPLICATION=$@
 
 if ! command -v jq &> /dev/null
 then
@@ -14,7 +16,7 @@ echo 'Is the Application signed?'
 echo '=========================='
 echo
 
-OUTPUT=$(codesign -d -vvvvv $application 2>&1 >/dev/null)
+OUTPUT=$(codesign -d -vvvvv $APPLICATION 2>&1 >/dev/null)
 
 if echo "$OUTPUT" | grep -q "not signed"; then
 	echo "No"
@@ -55,7 +57,7 @@ echo 'Which Entitlements does the Application have?'
 echo '============================================='
 echo
 
-PLIST=$(codesign -d --entitlement :- $application 2>/dev/null)
+PLIST=$(codesign -d --entitlement :- $APPLICATION 2>/dev/null)
 
 JSON_PLIST=$(echo $PLIST | plutil -convert json -o - -r -)
 
