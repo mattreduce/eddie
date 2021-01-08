@@ -2,7 +2,7 @@
 
 IFS=$'\n\t'
 
-APPLICATION=$@
+APPLICATION="$@"
 
 if ! command -v jq &> /dev/null
 then
@@ -16,15 +16,15 @@ echo 'Is the Application signed?'
 echo '=========================='
 echo
 
-OUTPUT=$(codesign -d -vvvvv $APPLICATION 2>&1 >/dev/null)
+OUTPUT="$(codesign -d -vvvvv "$APPLICATION" 2>&1 >/dev/null)"
 
 if echo "$OUTPUT" | grep -q "not signed"; then
 	echo "No"
 	echo
 	exit 0
 else
-	BUNDLEID=$(echo "$OUTPUT" | grep "^Identifier" | cut -d '=' -f 2)
-	echo "Yes (Bundle ID: $BUNDLEID)"
+	BUNDLEID="$(echo "$OUTPUT" | grep "^Identifier" | cut -d '=' -f 2)"
+	echo "Yes (Bundle ID: "$BUNDLEID")"
 fi
 
 echo
@@ -33,7 +33,7 @@ echo 'Signing authority:'
 echo '=========================='
 echo
 
-AUTHORITY=$(echo "$OUTPUT" | grep "Authority")
+AUTHORITY="$(echo "$OUTPUT" | grep "Authority")"
 echo "$AUTHORITY"
 
 
@@ -57,8 +57,8 @@ echo 'Which Entitlements does the Application have?'
 echo '============================================='
 echo
 
-PLIST=$(codesign -d --entitlement :- $APPLICATION 2>/dev/null)
+PLIST="$(codesign -d --entitlement :- "$APPLICATION" 2>/dev/null)"
 
-JSON_PLIST=$(echo $PLIST | plutil -convert json -o - -r -)
+JSON_PLIST="$(echo "$PLIST" | plutil -convert json -o - -r -)"
 
-echo $JSON_PLIST | jq -c 'to_entries[] | select (.value != false) | .key'
+echo "$JSON_PLIST" | jq -c 'to_entries[] | select (.value != false) | .key'
