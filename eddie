@@ -47,8 +47,6 @@ if echo "$OUTPUT" | grep -q "runtime"; then
 	echo "Yes"
 else
 	echo "No"
-	echo
-	exit 0
 fi
 
 echo
